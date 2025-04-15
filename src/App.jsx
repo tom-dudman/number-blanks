@@ -87,8 +87,14 @@ function App() {
 
   const hideChar = (char) => (reveal ? char : " ");
 
-  const topWithBlanks = [hideChar(t1), t2, hideChar(t3), t4];
-  const bottomWithBlanks = [b1, hideChar(b2), b3, hideChar(b4)];
+  const offset = Math.round(Math.random());
+
+  const topWithBlanks = [t1, t2, t3, t4].map((char, index) =>
+    offset === index % 2 ? hideChar(char) : char,
+  );
+  const bottomWithBlanks = [b1, b2, b3, b4].map((char, index) =>
+    offset === index % 2 ? char : hideChar(char),
+  );
 
   return (
     <>
