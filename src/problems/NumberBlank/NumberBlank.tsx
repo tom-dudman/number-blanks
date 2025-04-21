@@ -1,3 +1,5 @@
+import { clsx } from "clsx";
+
 import { OPERATION } from "./OPERATION.ts";
 import useNumberBlankProblem from "./useNumberBlankProblem.ts";
 
@@ -27,15 +29,31 @@ const NumberBlank = ({ mode, reveal }: NumberBlankProps) => {
   );
 
   return (
-    <div className={"grid"}>
+    <div className={"flex flex-col gap-2 w-fit mx-auto"}>
       {[
-        ...[undefined, ...topWithBlanks],
-        ...[operation, ...bottomWithBlanks],
-        ...["=", ...splitAnswer],
-      ].map((char, c) => (
-        <span key={c} className={char === " " ? "blank" : char}>
-          {char}
-        </span>
+        [undefined, ...topWithBlanks],
+        [operation, ...bottomWithBlanks],
+        [undefined, ...splitAnswer],
+      ].map((row, index) => (
+        <div
+          key={index}
+          className={clsx(
+            "flex gap-2",
+            index === 2 && "border-y-1 border-black",
+          )}
+        >
+          {row.map((char, c) => (
+            <span
+              key={c}
+              className={clsx(
+                "size-[40px] leading-[40px] text-center",
+                char === " " && "border-1 border-black",
+              )}
+            >
+              {char}
+            </span>
+          ))}
+        </div>
       ))}
     </div>
   );

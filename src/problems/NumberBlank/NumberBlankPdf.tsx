@@ -91,7 +91,7 @@ const NumberBlankProblem = ({
     }),
   ];
 
-  const answerRow = ["=", ...splitAnswer].map((char, index) => (
+  const answerRow = [null, ...splitAnswer].map((char, index) => (
     <Char key={"a" + index}>{char}</Char>
   ));
 
