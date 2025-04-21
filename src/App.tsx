@@ -1,8 +1,10 @@
 import "./App.css";
 
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useState } from "react";
 
 import NumberBlank from "./components/NumberBlank/NumberBlank.tsx";
+import NumberBlankPdf from "./components/NumberBlank/NumberBlankPdf.tsx";
 import { OPERATION } from "./components/NumberBlank/OPERATION.ts";
 
 function App() {
@@ -52,6 +54,13 @@ function App() {
           </button>
         </div>
         <NumberBlank key={key} {...{ mode, reveal }} />
+        <PDFDownloadLink
+          key={mode}
+          document={<NumberBlankPdf mode={mode} />}
+          fileName={"NumberBlank.pdf"}
+        >
+          {"Download Worksheet"}
+        </PDFDownloadLink>
       </div>
     </>
   );

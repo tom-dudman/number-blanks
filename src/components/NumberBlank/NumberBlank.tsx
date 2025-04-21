@@ -1,15 +1,15 @@
 import { OPERATION } from "./OPERATION.ts";
 import useNumberBlankProblem from "./useNumberBlankProblem.ts";
 
-interface NumberBlankProps {
+export interface NumberBlankProps {
   mode?: OPERATION;
   reveal: boolean;
 }
 
 const NumberBlank = ({ mode, reveal }: NumberBlankProps) => {
-  const [problem, offset] = useNumberBlankProblem(mode);
+  const problem = useNumberBlankProblem(mode);
 
-  const [top, operation, bottom, answer] = problem;
+  const [top, operation, bottom, answer, offset] = problem;
 
   const [t1, t2, t3, t4] = top.toString().padStart(4, "0").split("");
 

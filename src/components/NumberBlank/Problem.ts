@@ -1,6 +1,10 @@
 import { OPERATION } from "./OPERATION.ts";
 
-export type Problem = [number, OPERATION, number, number];
+type Offset = 1 | 0;
+
+export type Problem = [number, OPERATION, number, number, Offset];
+
+const randomOffset = () => Math.round(Math.random()) as Offset;
 
 const createMultiplicationProblem = (): Problem => {
   const top = ~~(100 * Math.random());
@@ -10,7 +14,7 @@ const createMultiplicationProblem = (): Problem => {
 
   const answer = top * bottom;
 
-  return [top, OPERATION.MULTIPLICATION, bottom, answer];
+  return [top, OPERATION.MULTIPLICATION, bottom, answer, randomOffset()];
 };
 
 const createSubtractProblem = (): Problem => {
@@ -21,7 +25,7 @@ const createSubtractProblem = (): Problem => {
 
   const answer = top - bottom;
 
-  return [top, OPERATION.SUBTRACT, bottom, answer];
+  return [top, OPERATION.SUBTRACT, bottom, answer, randomOffset()];
 };
 
 const createAdditionProblem = (): Problem => {
@@ -33,7 +37,7 @@ const createAdditionProblem = (): Problem => {
 
   const answer = top + bottom;
 
-  return [top, OPERATION.PLUS, bottom, answer];
+  return [top, OPERATION.PLUS, bottom, answer, randomOffset()];
 };
 
 export const problemFactory: { [key in OPERATION]: () => Problem } = {
