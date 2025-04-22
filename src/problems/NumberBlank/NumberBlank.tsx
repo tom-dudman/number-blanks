@@ -29,7 +29,11 @@ const NumberBlank = ({ mode, reveal }: NumberBlankProps) => {
   );
 
   return (
-    <div className={"flex flex-col gap-2 w-fit mx-auto"}>
+    <div
+      className={
+        "flex flex-col gap-2 w-fit mx-auto animate-in zoom-in duration-300"
+      }
+    >
       {[
         [undefined, ...topWithBlanks],
         [operation, ...bottomWithBlanks],
