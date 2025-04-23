@@ -1,7 +1,8 @@
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import { PropsWithChildren } from "react";
 
-import { NumberBlankProps } from "./NumberBlank.tsx";
+import { OPERATION } from "@/problems/NumberBlank/OPERATION.ts";
+
 import { chooseOperation, Problem, problemFactory } from "./Problem.ts";
 
 const CHAR_DIMENSIONS = 30;
@@ -103,10 +104,12 @@ const NumberBlankProblem = ({
     </View>
   );
 };
-const NumberBlankPdf = ({ mode }: Pick<NumberBlankProps, "mode">) => {
+const NumberBlankPdf = ({ modes }: { modes: OPERATION[] }) => {
   const problems = Array(8)
     .fill(0)
-    .map(() => problemFactory[chooseOperation(mode)]());
+    .map(() =>
+      problemFactory[chooseOperation(modes.at(modes.length * Math.random()))](),
+    );
 
   const problemRows = problems.reduce<Problem[][]>((acc, problem, index) => {
     if (!(index % 2)) return [...acc, [problem]];

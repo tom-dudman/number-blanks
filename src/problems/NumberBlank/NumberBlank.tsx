@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { OPERATION } from "./OPERATION.ts";
 import useNumberBlankProblem from "./useNumberBlankProblem.ts";
 
-export interface NumberBlankProps {
+interface NumberBlankProps {
   mode?: OPERATION;
   reveal: boolean;
 }
