@@ -3,7 +3,7 @@ import { PropsWithChildren } from "react";
 
 import { OPERATION } from "@/problems/NumberBlank/OPERATION.ts";
 
-import { chooseOperation, Problem, problemFactory } from "./Problem.ts";
+import { chooseOperation, createProblem, Problem } from "./Problem.ts";
 
 const CHAR_DIMENSIONS = 30;
 
@@ -104,12 +104,16 @@ const NumberBlankProblem = ({
     </View>
   );
 };
-const NumberBlankPdf = ({ modes }: { modes: OPERATION[] }) => {
+
+interface NumberBlankProps {
+  modes: OPERATION[];
+  difficulty: number;
+}
+
+const NumberBlankPdf = ({ modes, difficulty }: NumberBlankProps) => {
   const problems = Array(8)
     .fill(0)
-    .map(() =>
-      problemFactory[chooseOperation(modes.at(modes.length * Math.random()))](),
-    );
+    .map(() => createProblem({ mode: chooseOperation(modes), difficulty }));
 
   const problemRows = problems.reduce<Problem[][]>((acc, problem, index) => {
     if (!(index % 2)) return [...acc, [problem]];

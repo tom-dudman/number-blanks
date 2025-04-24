@@ -4,27 +4,28 @@ import { OPERATION } from "./OPERATION.ts";
 import useNumberBlankProblem from "./useNumberBlankProblem.ts";
 
 interface NumberBlankProps {
-  mode?: OPERATION;
+  mode: OPERATION;
+  difficulty: number;
   reveal: boolean;
 }
 
-const NumberBlank = ({ mode, reveal }: NumberBlankProps) => {
-  const problem = useNumberBlankProblem(mode);
+const NumberBlank = ({ mode, difficulty, reveal }: NumberBlankProps) => {
+  const problem = useNumberBlankProblem({ mode, difficulty });
 
   const [top, operation, bottom, answer, offset] = problem;
 
-  const [t1, t2, t3, t4] = top.toString().padStart(4, "0").split("");
+  const splitTop = top.toString().padStart(difficulty, "0").split("");
 
-  const [b1, b2, b3, b4] = bottom.toString().padStart(4, "0").split("");
+  const splitBottom = bottom.toString().padStart(difficulty, "0").split("");
 
-  const splitAnswer = answer.toString().padStart(4, "0").split("");
+  const splitAnswer = answer.toString().padStart(difficulty, "0").split("");
 
   const hideChar = (char: string) => (reveal ? char : " ");
 
-  const topWithBlanks = [t1, t2, t3, t4].map((char, index) =>
+  const topWithBlanks = splitTop.map((char, index) =>
     offset === index % 2 ? hideChar(char) : char,
   );
-  const bottomWithBlanks = [b1, b2, b3, b4].map((char, index) =>
+  const bottomWithBlanks = splitBottom.map((char, index) =>
     offset === index % 2 ? char : hideChar(char),
   );
 

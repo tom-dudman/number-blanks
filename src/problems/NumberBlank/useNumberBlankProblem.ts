@@ -1,10 +1,9 @@
 import { useRef } from "react";
 
-import { OPERATION } from "./OPERATION.ts";
-import { chooseOperation, Problem, problemFactory } from "./Problem.ts";
+import { createProblem, Problem, ProblemParameters } from "./Problem.ts";
 
-const useNumberBlankProblem = (mode?: OPERATION): Problem => {
-  const problem = useRef(problemFactory[chooseOperation(mode)]());
+const useNumberBlankProblem = (params?: ProblemParameters): Problem => {
+  const problem = useRef(createProblem(params));
 
   return problem.current;
 };
