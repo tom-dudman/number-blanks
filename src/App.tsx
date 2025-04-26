@@ -1,6 +1,13 @@
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import { Eye, EyeOff, FileDown, Gauge, RefreshCcwDot } from "lucide-react";
-import { useState } from "react";
+import { pdf } from "@react-pdf/renderer";
+import {
+  Eye,
+  EyeOff,
+  FileDown,
+  Gauge,
+  LoaderCircle,
+  RefreshCcwDot,
+} from "lucide-react";
+import { useCallback, useState } from "react";
 
 import Background from "@/components/Background.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -51,6 +58,38 @@ function App() {
 
   const mode = chooseOperation(modes);
 
+  const [loading, setLoading] = useState(false);
+
+  const handleDownload = useCallback(async () => {
+    setLoading(true);
+    const url = "";
+    try {
+      const blob = await pdf(
+        <NumberBlankPdf
+          key={[...modes, difficulty].join()}
+          modes={modes}
+          difficulty={difficulty}
+        />,
+      ).toBlob();
+      const url = URL.createObjectURL(blob);
+
+      const response = await fetch(url);
+      const blobData = await response.blob();
+      const blobUrl = URL.createObjectURL(blobData);
+
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = `NumberBlank.pdf`;
+      link.click();
+    } catch (error) {
+      console.error(error);
+      alert("Error generating PDF");
+    } finally {
+      if (url) URL.revokeObjectURL(url);
+      setLoading(false);
+    }
+  }, [difficulty, modes]);
+
   return (
     <>
       <Background />
@@ -85,6 +124,7 @@ function App() {
                       id={id}
                       checked={modes.includes(operationOption)}
                       onCheckedChange={toggleMode(operationOption)}
+                      disabled={loading}
                     ></Switch>
                   </div>
                 );
@@ -98,6 +138,7 @@ function App() {
             defaultValue={[difficulty]}
             min={MIN_DIFFICULTY}
             max={MAX_DIFFICULTY}
+            disabled={loading}
             onValueCommit={([value]) => {
               setDifficulty(value);
             }}
@@ -112,7 +153,7 @@ function App() {
             className={"flex flex-col justify-between items-center gap-8"}
           >
             <NumberBlank
-              key={[mode, difficulty].join()}
+              key={[mode, difficulty, renderKey].join()}
               {...{ mode, difficulty, reveal }}
             />
           </CardContent>
@@ -137,14 +178,21 @@ function App() {
             </Button>
           </CardFooter>
         </Card>
-        <Button variant={"ghost"} asChild>
-          <PDFDownloadLink
-            key={[...modes, difficulty, renderKey, reveal].join()}
-            document={<NumberBlankPdf modes={modes} difficulty={difficulty} />}
-            fileName={"NumberBlank.pdf"}
-          >
-            <FileDown /> Download Worksheet
-          </PDFDownloadLink>
+        <Button
+          variant={"ghost"}
+          onClick={handleDownload}
+          disabled={loading}
+          className={"cursor-pointer"}
+        >
+          {loading ? (
+            <>
+              <LoaderCircle className={"animate-spin"} /> Downloading...
+            </>
+          ) : (
+            <>
+              <FileDown /> Download Worksheet
+            </>
+          )}
         </Button>
       </div>
     </>

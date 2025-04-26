@@ -61,22 +61,24 @@ const Char = ({ children }: PropsWithChildren) => (
 
 const NumberBlankProblem = ({
   problem,
+  difficulty,
   reveal,
 }: {
   problem: Problem;
+  difficulty: number;
   reveal?: boolean;
 }) => {
   const [top, operation, bottom, answer, offset] = problem;
 
-  const [t1, t2, t3, t4] = top.toString().padStart(4, "0").split("");
+  const tops = top.toString().padStart(difficulty, "0").split("");
 
-  const [b1, b2, b3, b4] = bottom.toString().padStart(4, "0").split("");
+  const bottoms = bottom.toString().padStart(difficulty, "0").split("");
 
-  const splitAnswer = answer.toString().padStart(4, "0").split("");
+  const splitAnswer = answer.toString().padStart(difficulty, "0").split("");
 
   const topRow = [
     <Char key={"t-1"}>{null}</Char>,
-    ...[t1, t2, t3, t4].map((char, index) => {
+    tops.map((char, index) => {
       const key = "t" + index;
       if (!reveal && offset === index % 2) return <BlankChar key={key} />;
       return <Char key={key}>{char}</Char>;
@@ -85,7 +87,7 @@ const NumberBlankProblem = ({
 
   const bottomRow = [
     <Char key={"b-1"}>{operation}</Char>,
-    ...[b1, b2, b3, b4].map((char, index) => {
+    bottoms.map((char, index) => {
       const key = "b" + index;
       if (reveal || offset === index % 2) return <Char key={key}>{char}</Char>;
       return <BlankChar key={key} />;
@@ -105,15 +107,22 @@ const NumberBlankProblem = ({
   );
 };
 
-interface NumberBlankProps {
+export interface NumberBlankProps {
   modes: OPERATION[];
   difficulty: number;
 }
 
-const NumberBlankPdf = ({ modes, difficulty }: NumberBlankProps) => {
+const NumberBlankPdf = (props: NumberBlankProps) => {
+  const { modes, difficulty } = props;
+
   const problems = Array(8)
     .fill(0)
-    .map(() => createProblem({ mode: chooseOperation(modes), difficulty }));
+    .map(() =>
+      createProblem({
+        mode: chooseOperation(modes),
+        difficulty,
+      }),
+    );
 
   const problemRows = problems.reduce<Problem[][]>((acc, problem, index) => {
     if (!(index % 2)) return [...acc, [problem]];
@@ -125,11 +134,14 @@ const NumberBlankPdf = ({ modes, difficulty }: NumberBlankProps) => {
     <Document>
       <Page size={"A4"} style={styles.page}>
         <View style={styles.pageGrid}>
-          {...problemRows.map((problemRow, index) => (
-            <View key={"pr" + index} style={styles.pageRow}>
-              {problemRow.map((problem, index) => (
-                <View key={"p" + index} style={styles.pageCell}>
-                  <NumberBlankProblem problem={problem} />
+          {...problemRows.map((problemRow) => (
+            <View key={problemRow.flat().join()} style={styles.pageRow}>
+              {problemRow.map((problem) => (
+                <View key={problem.join()} style={styles.pageCell}>
+                  <NumberBlankProblem
+                    problem={problem}
+                    difficulty={difficulty}
+                  />
                 </View>
               ))}
             </View>
@@ -142,7 +154,11 @@ const NumberBlankPdf = ({ modes, difficulty }: NumberBlankProps) => {
             <View key={"pr" + index} style={styles.pageRow}>
               {problemRow.map((problem, index) => (
                 <View key={"p" + index} style={styles.pageCell}>
-                  <NumberBlankProblem reveal problem={problem} />
+                  <NumberBlankProblem
+                    reveal
+                    problem={problem}
+                    difficulty={difficulty}
+                  />
                 </View>
               ))}
             </View>
