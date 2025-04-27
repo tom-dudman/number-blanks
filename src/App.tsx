@@ -31,15 +31,19 @@ import {
   MAX_DIFFICULTY,
   MIN_DIFFICULTY,
 } from "@/problems/NumberBlank/Problem.ts";
+import {
+  loadSettings,
+  saveSettings,
+} from "@/problems/NumberBlank/settingsStorage.ts";
+
+const savedSettings = loadSettings();
 
 function App() {
   const [reveal, setReveal] = useState(false);
 
-  const [modes, setModes] = useState<OPERATION[]>([]);
+  const [modes, setModes] = useState(savedSettings.modes);
 
-  const [difficulty, setDifficulty] = useState(
-    MIN_DIFFICULTY + ~~((MAX_DIFFICULTY - MIN_DIFFICULTY) / 2),
-  );
+  const [difficulty, setDifficulty] = useState(savedSettings.difficulty);
 
   const [renderKey, setRenderKey] = useState(Math.random());
 
@@ -49,11 +53,22 @@ function App() {
   };
 
   const toggleMode = (mode: OPERATION) => (active: boolean) => {
-    setModes((prevModes) =>
-      active
-        ? [...prevModes, mode]
-        : prevModes.filter((currentMode) => currentMode !== mode),
-    );
+    const newModes = active
+      ? [...modes, mode]
+      : modes.filter((currentMode) => currentMode !== mode);
+    saveSettings({
+      modes: newModes,
+      difficulty,
+    });
+    setModes(newModes);
+  };
+
+  const handleCommitDifficulty = ([newDifficulty]: number[]) => {
+    saveSettings({
+      modes,
+      difficulty: newDifficulty,
+    });
+    setDifficulty(newDifficulty);
   };
 
   const mode = chooseOperation(modes);
@@ -139,9 +154,7 @@ function App() {
             min={MIN_DIFFICULTY}
             max={MAX_DIFFICULTY}
             disabled={loading}
-            onValueCommit={([value]) => {
-              setDifficulty(value);
-            }}
+            onValueCommit={handleCommitDifficulty}
           />
         </div>
         <Card className={"w-fit mx-auto px-8 py-12 overflow-hidden"}>

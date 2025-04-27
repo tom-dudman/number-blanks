@@ -1,7 +1,7 @@
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import { PropsWithChildren } from "react";
 
-import { OPERATION } from "@/problems/NumberBlank/OPERATION.ts";
+import { NumberBlankSettings } from "@/problems/NumberBlank/settingsStorage.ts";
 
 import { chooseOperation, createProblem, Problem } from "./Problem.ts";
 
@@ -107,12 +107,7 @@ const NumberBlankProblem = ({
   );
 };
 
-export interface NumberBlankProps {
-  modes: OPERATION[];
-  difficulty: number;
-}
-
-const NumberBlankPdf = (props: NumberBlankProps) => {
+const NumberBlankPdf = (props: NumberBlankSettings) => {
   const { modes, difficulty } = props;
 
   const problems = Array(8)
