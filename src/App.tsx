@@ -61,6 +61,7 @@ function App() {
       difficulty,
     });
     setModes(newModes);
+    setReveal(false);
   };
 
   const handleCommitDifficulty = ([newDifficulty]: number[]) => {
@@ -69,6 +70,7 @@ function App() {
       difficulty: newDifficulty,
     });
     setDifficulty(newDifficulty);
+    setReveal(false);
   };
 
   const mode = chooseOperation(modes);
