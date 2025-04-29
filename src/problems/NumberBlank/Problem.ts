@@ -78,8 +78,6 @@ export const createProblem = (params?: ProblemParameters): Problem => {
 
 export const chooseOperation = (modes?: OPERATION[]): OPERATION => {
   const availableOperations = modes ?? Object.values(OPERATION);
-  const operationIndex = Math.round(
-    (availableOperations.length - 1) * Math.random(),
-  );
+  const operationIndex = ~~(Math.random() * availableOperations.length);
   return availableOperations.at(operationIndex)!;
 };

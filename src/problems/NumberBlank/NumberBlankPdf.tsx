@@ -1,7 +1,7 @@
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import { PropsWithChildren } from "react";
 
-import { NumberBlankSettings } from "@/problems/NumberBlank/settingsStorage.ts";
+import { NumberBlankSettings } from "@/stores/useNumberBlankStore.ts";
 
 import { chooseOperation, createProblem, Problem } from "./Problem.ts";
 

@@ -44,7 +44,7 @@ const NumberBlank = ({ mode, difficulty, reveal }: NumberBlankProps) => {
           key={index}
           className={clsx(
             "flex gap-2",
-            index === 2 && "border-y-1 border-black",
+            index === 2 && "border-y-1 border-black dark:border-white",
           )}
         >
           {row.map((char, c) => (
@@ -52,7 +52,8 @@ const NumberBlank = ({ mode, difficulty, reveal }: NumberBlankProps) => {
               key={c}
               className={clsx(
                 "size-[40px] leading-[40px] text-center",
-                char === " " && "border-1 border-black",
+                char === " " &&
+                  "rounded-xs border-1 border-black dark:border-white",
               )}
             >
               {char}
