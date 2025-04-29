@@ -159,10 +159,10 @@ function App() {
             onValueCommit={handleCommitDifficulty}
           />
         </div>
-        <Card className={"w-fit mx-auto px-8 py-12 overflow-hidden"}>
+        <Card className={"min-w-[346px] mx-auto px-8 py-12 overflow-hidden"}>
           <CardHeader>
-            <CardTitle>Example Problem</CardTitle>
-            <CardDescription>Solve this quick problem</CardDescription>
+            <CardTitle>Quick Problem</CardTitle>
+            <CardDescription>Try to solve it in your head!</CardDescription>
           </CardHeader>
           <CardContent
             className={"flex flex-col justify-between items-center gap-8"}
