@@ -32,7 +32,19 @@ const DownloadButton = () => {
 
       const link = document.createElement("a");
       link.href = blobUrl;
-      link.download = `NumberBlank.pdf`; // todo make this dynamic
+
+      const date = new Date();
+      const suffix = [
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        "_",
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds(),
+      ].join("");
+
+      link.download = `NumberBlank_${suffix}.pdf`;
       link.click();
     } catch (error) {
       console.error(error);
