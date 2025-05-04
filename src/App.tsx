@@ -6,7 +6,7 @@ import DifficultySlider from "@/components/DifficultySlider.tsx";
 import DownloadButton from "@/components/DownloadButton.tsx";
 import ModeToggles from "@/components/ModeToggles.tsx";
 import RevealToggleButton from "@/components/RevealToggleButton.tsx";
-import ThemeToggleButton from "@/components/ThemeToggleButton.tsx";
+import ThemeMenu from "@/components/ThemeMenu.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import {
   Card,
@@ -46,7 +46,7 @@ function App() {
   return (
     <>
       <Background />
-      <ThemeToggleButton />
+      <ThemeMenu />
       <div
         className={
           "absolute z-9 w-full h-dvh flex flex-col justify-around items-center"
