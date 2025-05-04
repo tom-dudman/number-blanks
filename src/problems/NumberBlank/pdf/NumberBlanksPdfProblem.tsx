@@ -1,18 +1,13 @@
-import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
+import { StyleSheet, Text, View } from "@react-pdf/renderer";
 import { PropsWithChildren } from "react";
 
-import { NumberBlankSettings } from "@/stores/useNumberBlankStore.ts";
-
-import { chooseOperation, createProblem, Problem } from "./Problem.ts";
+import { Problem } from "@/problems/NumberBlank/Problem.ts";
 
 const CHAR_DIMENSIONS = 30;
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: "row",
-  },
-  section: {
-    flexGrow: 1,
   },
   pageGrid: {
     flexGrow: 1,
@@ -30,8 +25,10 @@ const styles = StyleSheet.create({
     marginHorizontal: "auto",
   },
   problemRow: {
+    height: CHAR_DIMENSIONS,
     columnGap: 10,
     flexDirection: "row",
+    alignItems: "center",
   },
   answerRow: {
     borderTopWidth: 1,
@@ -41,11 +38,11 @@ const styles = StyleSheet.create({
   },
   char: {
     width: CHAR_DIMENSIONS,
-    height: CHAR_DIMENSIONS,
     color: "black",
     textAlign: "center",
   },
   blankChar: {
+    height: CHAR_DIMENSIONS,
     borderWidth: 1,
     borderColor: "black",
   },
@@ -58,8 +55,7 @@ const BlankChar = () => (
 const Char = ({ children }: PropsWithChildren) => (
   <Text style={styles.char}>{children}</Text>
 );
-
-const NumberBlankProblem = ({
+const NumberBlanksPdfProblem = ({
   problem,
   difficulty,
   reveal,
@@ -99,7 +95,7 @@ const NumberBlankProblem = ({
   ));
 
   return (
-    <View style={styles.problemGrid}>
+    <View style={styles.problemGrid} wrap={false}>
       <View style={styles.problemRow}>{topRow}</View>
       <View style={styles.problemRow}>{bottomRow}</View>
       <View style={[styles.problemRow, styles.answerRow]}>{answerRow}</View>
@@ -107,61 +103,4 @@ const NumberBlankProblem = ({
   );
 };
 
-const NumberBlankPdf = (props: NumberBlankSettings) => {
-  const { modes, difficulty } = props;
-
-  const problems = Array(8)
-    .fill(0)
-    .map(() =>
-      createProblem({
-        mode: chooseOperation(modes),
-        difficulty,
-      }),
-    );
-
-  const problemRows = problems.reduce<Problem[][]>((acc, problem, index) => {
-    if (!(index % 2)) return [...acc, [problem]];
-    const [last, ...rest] = acc.reverse();
-    return [...rest, [...last, problem]];
-  }, []);
-
-  return (
-    <Document>
-      <Page size={"A4"} style={styles.page}>
-        <View style={styles.pageGrid}>
-          {...problemRows.map((problemRow) => (
-            <View key={problemRow.flat().join()} style={styles.pageRow}>
-              {problemRow.map((problem) => (
-                <View key={problem.join()} style={styles.pageCell}>
-                  <NumberBlankProblem
-                    problem={problem}
-                    difficulty={difficulty}
-                  />
-                </View>
-              ))}
-            </View>
-          ))}
-        </View>
-      </Page>
-      <Page size={"A4"} style={styles.page}>
-        <View style={styles.pageGrid}>
-          {...problemRows.map((problemRow, index) => (
-            <View key={"pr" + index} style={styles.pageRow}>
-              {problemRow.map((problem, index) => (
-                <View key={"p" + index} style={styles.pageCell}>
-                  <NumberBlankProblem
-                    reveal
-                    problem={problem}
-                    difficulty={difficulty}
-                  />
-                </View>
-              ))}
-            </View>
-          ))}
-        </View>
-      </Page>
-    </Document>
-  );
-};
-
-export default NumberBlankPdf;
+export default NumberBlanksPdfProblem;

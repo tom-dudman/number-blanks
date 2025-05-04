@@ -3,7 +3,7 @@ import { FileDown, LoaderCircle } from "lucide-react";
 import { useCallback } from "react";
 
 import { Button } from "@/components/ui/button.tsx";
-import NumberBlankPdf from "@/problems/NumberBlank/NumberBlankPdf.tsx";
+import NumberBlanksPdf from "@/problems/NumberBlank/pdf/NumberBlanksPdf.tsx";
 import useAppState from "@/stores/useAppState.ts";
 import useNumberBlankStore from "@/stores/useNumberBlankStore.ts";
 
@@ -18,7 +18,7 @@ const DownloadButton = () => {
     const url = "";
     try {
       const blob = await pdf(
-        <NumberBlankPdf
+        <NumberBlanksPdf
           key={[...modes, difficulty].join()}
           modes={modes}
           difficulty={difficulty}
