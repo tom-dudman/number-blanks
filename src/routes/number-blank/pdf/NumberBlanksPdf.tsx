@@ -1,7 +1,7 @@
 import { Document, StyleSheet, View } from "@react-pdf/renderer";
 
 import BrandedPage from "@/pdf/BrandedPage.tsx";
-import NumberBlanksPdfProblem from "@/problems/NumberBlank/pdf/NumberBlanksPdfProblem.tsx";
+import NumberBlanksPdfProblem from "@/routes/number-blank/pdf/NumberBlanksPdfProblem.tsx";
 import { NumberBlankSettings } from "@/stores/useNumberBlankStore.ts";
 
 import { chooseOperation, createProblem, Problem } from "../Problem.ts";

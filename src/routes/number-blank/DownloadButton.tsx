@@ -3,7 +3,7 @@ import { FileDown, LoaderCircle } from "lucide-react";
 import { useCallback } from "react";
 
 import { Button } from "@/components/ui/button.tsx";
-import NumberBlanksPdf from "@/problems/NumberBlank/pdf/NumberBlanksPdf.tsx";
+import NumberBlanksPdf from "@/routes/number-blank/pdf/NumberBlanksPdf.tsx";
 import useAppState from "@/stores/useAppState.ts";
 import useNumberBlankStore from "@/stores/useNumberBlankStore.ts";
 

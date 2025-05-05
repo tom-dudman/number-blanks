@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label.tsx";
 import { Switch } from "@/components/ui/switch.tsx";
-import { OPERATION } from "@/problems/NumberBlank/OPERATION.ts";
-import OperationIcon from "@/problems/NumberBlank/OperationIcon.tsx";
+import { OPERATION } from "@/routes/number-blank/OPERATION.ts";
+import OperationIcon from "@/routes/number-blank/OperationIcon.tsx";
 import useAppState from "@/stores/useAppState.ts";
 import useNumberBlankStore from "@/stores/useNumberBlankStore.ts";
 

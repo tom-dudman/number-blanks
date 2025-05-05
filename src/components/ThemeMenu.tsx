@@ -9,7 +9,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx";
-import { Theme } from "@/stores/useAppState";
+import { Theme } from "@/stores/useAppState.ts";
 import useDarkMode from "@/stores/useDarkMode.ts";
 
 const ThemeMenu = () => {

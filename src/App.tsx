@@ -1,103 +1,21 @@
-import { RefreshCcwDot } from "lucide-react";
-import { useRef, useState } from "react";
+import * as React from "react";
+import { BrowserRouter, Route, Routes } from "react-router";
 
-import Background from "@/components/Background.tsx";
-import DifficultySlider from "@/components/DifficultySlider.tsx";
-import DownloadButton from "@/components/DownloadButton.tsx";
-import ModeToggles from "@/components/ModeToggles.tsx";
-import RevealToggleButton from "@/components/RevealToggleButton.tsx";
-import ThemeMenu from "@/components/ThemeMenu.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card.tsx";
-import NumberBlank from "@/problems/NumberBlank/NumberBlank.tsx";
-import { chooseOperation } from "@/problems/NumberBlank/Problem.ts";
-import useAppState from "@/stores/useAppState.ts";
-import useNumberBlankStore from "@/stores/useNumberBlankStore.ts";
+import NotFound from "@/routes/404.tsx";
+import Layout from "@/routes/Layout.tsx";
+
+const NumberBlankPage = React.lazy(() => import("@/routes/number-blank"));
 
 function App() {
-  const modes = useNumberBlankStore(({ modes }) => modes);
-  const difficulty = useNumberBlankStore(({ difficulty }) => difficulty);
-
-  const reveal = useAppState(({ reveal }) => reveal);
-  const setReveal = useAppState(({ setReveal }) => setReveal);
-
-  const toggleTheme = useAppState(({ toggleTheme }) => toggleTheme);
-
-  const modeRef = useRef(chooseOperation(modes));
-
-  if (!modes.includes(modeRef.current))
-    modeRef.current = chooseOperation(modes);
-
-  const [renderKey, setRenderKey] = useState(Math.random());
-
-  const triggerNewProblem = () => {
-    modeRef.current = chooseOperation(modes);
-    setReveal(false);
-    setRenderKey(Math.random());
-  };
-
   return (
-    <>
-      <Background />
-      <ThemeMenu />
-      <div
-        className={
-          "absolute z-9 w-full h-dvh flex flex-col justify-around items-center"
-        }
-      >
-        <div className="text-center">
-          <h1
-            onClick={toggleTheme}
-            className={
-              "scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl"
-            }
-          >
-            Number Blanks
-          </h1>
-          <p className={"text-sm text-muted-foreground"}>
-            Fill in the missing numbers.
-          </p>
-        </div>
-        <div className={"flex flex-col items-center gap-4"}>
-          <ModeToggles />
-          <DifficultySlider />
-        </div>
-        <Card className={"min-w-[346px] mx-auto px-8 py-12 overflow-hidden"}>
-          <CardHeader>
-            <CardTitle>Quick Problem</CardTitle>
-            <CardDescription>Try to solve it in your head!</CardDescription>
-          </CardHeader>
-          <CardContent
-            className={"flex flex-col justify-between items-center gap-8"}
-          >
-            <NumberBlank
-              key={[modeRef.current, difficulty, renderKey].join()}
-              {...{ mode: modeRef.current, difficulty, reveal }}
-            />
-          </CardContent>
-          <CardFooter
-            className={"w-full flex justify-around items-center gap-2"}
-          >
-            <Button
-              onClick={triggerNewProblem}
-              variant={"outline"}
-              className={"w-1/2"}
-            >
-              <RefreshCcwDot />
-            </Button>
-            <RevealToggleButton />
-          </CardFooter>
-        </Card>
-        <DownloadButton />
-      </div>
-    </>
+    <BrowserRouter basename={"/number-blanks/"}>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path={"/"} element={<NumberBlankPage />} />
+          <Route path={"*"} element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

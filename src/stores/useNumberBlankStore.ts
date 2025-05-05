@@ -1,11 +1,11 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
-import { OPERATION } from "@/problems/NumberBlank/OPERATION.ts";
+import { OPERATION } from "@/routes/number-blank/OPERATION.ts";
 import {
   MAX_DIFFICULTY,
   MIN_DIFFICULTY,
-} from "@/problems/NumberBlank/Problem.ts";
+} from "@/routes/number-blank/Problem.ts";
 
 export interface NumberBlankSettings {
   modes: OPERATION[];

@@ -1,6 +1,6 @@
 import { Minus, Plus, Shuffle, X } from "lucide-react";
 
-import { OPERATION } from "@/problems/NumberBlank/OPERATION.ts";
+import { OPERATION } from "@/routes/number-blank/OPERATION.ts";
 
 const OperationIcon = ({ operation }: { operation?: OPERATION }) => {
   if (operation === OPERATION.PLUS) return <Plus />;

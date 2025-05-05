@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
 import { PropsWithChildren } from "react";
 
-import { Problem } from "@/problems/NumberBlank/Problem.ts";
+import { Problem } from "@/routes/number-blank/Problem.ts";
 
 const CHAR_DIMENSIONS = 30;
 
