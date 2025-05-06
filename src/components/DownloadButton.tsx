@@ -1,15 +1,19 @@
 import { pdf } from "@react-pdf/renderer";
 import { FileDown, LoaderCircle } from "lucide-react";
-import { useCallback } from "react";
+import { ComponentType, useCallback } from "react";
 
 import { Button } from "@/components/ui/button.tsx";
-import NumberBlanksPdf from "@/routes/number-blank/pdf/NumberBlanksPdf.tsx";
 import useAppState from "@/stores/useAppState.ts";
-import useNumberBlankStore from "@/stores/useNumberBlankStore.ts";
 
-const DownloadButton = () => {
-  const { modes, difficulty } = useNumberBlankStore.getState();
-
+type DownloadProps<P> = {
+  problemType: string;
+  Element: ComponentType<P>;
+} & P;
+const DownloadButton = <P,>({
+  Element,
+  problemType,
+  ...props
+}: DownloadProps<P>) => {
   const loading = useAppState(({ loading }) => loading);
   const setLoading = useAppState(({ setLoading }) => setLoading);
 
@@ -18,11 +22,7 @@ const DownloadButton = () => {
     const url = "";
     try {
       const blob = await pdf(
-        <NumberBlanksPdf
-          key={[...modes, difficulty].join()}
-          modes={modes}
-          difficulty={difficulty}
-        />,
+        <Element key={JSON.stringify(props)} {...(props as P)} />,
       ).toBlob();
       const url = URL.createObjectURL(blob);
 
@@ -44,7 +44,7 @@ const DownloadButton = () => {
         date.getSeconds(),
       ].join("");
 
-      link.download = `NumberBlank_${suffix}.pdf`;
+      link.download = `${problemType}_${suffix}.pdf`;
       link.click();
     } catch (error) {
       console.error(error);
@@ -53,7 +53,7 @@ const DownloadButton = () => {
       if (url) URL.revokeObjectURL(url);
       setLoading(false);
     }
-  }, [difficulty, modes, setLoading]);
+  }, [Element, problemType, props, setLoading]);
 
   const icon = loading ? (
     <LoaderCircle className={"animate-spin"} />

@@ -5,7 +5,7 @@ import { Slider } from "@/components/ui/slider.tsx";
 import {
   MAX_DIFFICULTY,
   MIN_DIFFICULTY,
-} from "@/routes/number-blank/Problem.ts";
+} from "@/routes/number-blank/NumberBlankProblem.ts";
 import useAppState from "@/stores/useAppState.ts";
 import useNumberBlankStore from "@/stores/useNumberBlankStore.ts";
 

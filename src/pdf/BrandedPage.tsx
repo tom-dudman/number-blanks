@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 });
 
 type NumberBlanksPageProps = PageProps & {
-  problem: NumberBlankSettings;
+  problem?: NumberBlankSettings;
 };
 
 const BrandedPage = ({
@@ -53,16 +53,22 @@ const BrandedPage = ({
 }: PropsWithChildren<NumberBlanksPageProps>) => (
   <Page {...props} style={styles.page}>
     <View style={styles.header}>
-      <View style={styles.definition}>
-        <Text style={styles.bold}>Difficulty</Text>
-        <Text>{problem.difficulty}</Text>
-      </View>
-      <View style={styles.definition}>
-        <Text style={styles.bold}>Problems</Text>
-        <Text>{problem.modes.join(" ")}</Text>
-      </View>
+      {problem && (
+        <>
+          <View style={styles.definition}>
+            <Text style={styles.bold}>Difficulty</Text>
+            <Text>{problem.difficulty}</Text>
+          </View>
+          <View style={styles.definition}>
+            <Text style={styles.bold}>Problems</Text>
+            <Text>{problem.modes.join(" ")}</Text>
+          </View>
+        </>
+      )}
     </View>
-    <View style={styles.body}>{children}</View>
+    <View style={styles.body} wrap={false}>
+      {children}
+    </View>
     <View style={styles.footer}>
       <View style={styles.branding}>
         <Logo size={64} />

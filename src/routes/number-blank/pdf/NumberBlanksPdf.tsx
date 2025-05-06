@@ -1,24 +1,12 @@
-import { Document, StyleSheet, View } from "@react-pdf/renderer";
+import { Document } from "@react-pdf/renderer";
 
 import BrandedPage from "@/pdf/BrandedPage.tsx";
+import { ProblemCell, ProblemGrid, ProblemRow } from "@/pdf/ProblemGrid.tsx";
+import splitIntoRows from "@/pdf/splitIntoRows.ts";
 import NumberBlanksPdfProblem from "@/routes/number-blank/pdf/NumberBlanksPdfProblem.tsx";
 import { NumberBlankSettings } from "@/stores/useNumberBlankStore.ts";
 
-import { chooseOperation, createProblem, Problem } from "../Problem.ts";
-
-const styles = StyleSheet.create({
-  pageGrid: {
-    flexGrow: 1,
-  },
-  pageRow: {
-    flexGrow: 1,
-    flexDirection: "row",
-  },
-  pageCell: {
-    flexGrow: 1,
-    justifyContent: "center",
-  },
-});
+import { chooseOperation, createProblem } from "../NumberBlankProblem.ts";
 
 const NumberBlanksPdf = (props: NumberBlankSettings) => {
   const { modes, difficulty } = props;
@@ -32,46 +20,46 @@ const NumberBlanksPdf = (props: NumberBlankSettings) => {
       }),
     );
 
-  const problemRows = problems.reduce<Problem[][]>((acc, problem, index) => {
-    if (!(index % 2)) return [...acc, [problem]];
-    const [last, ...rest] = acc.reverse();
-    return [...rest, [...last, problem]];
-  }, []);
+  const problemRows = splitIntoRows(problems);
 
   return (
     <Document>
       <BrandedPage size={"A4"} problem={props}>
-        <View style={styles.pageGrid}>
+        <ProblemGrid>
           {...problemRows.map((problemRow) => (
-            <View key={problemRow.flat().join()} style={styles.pageRow}>
+            <ProblemRow key={JSON.stringify(problemRow)}>
               {problemRow.map((problem) => (
-                <View key={problem.join()} style={styles.pageCell}>
+                <ProblemCell key={JSON.stringify(problem)}>
                   <NumberBlanksPdfProblem
                     problem={problem}
                     difficulty={difficulty}
                   />
-                </View>
+                </ProblemCell>
               ))}
-            </View>
+            </ProblemRow>
           ))}
-        </View>
+        </ProblemGrid>
       </BrandedPage>
       <BrandedPage size={"A4"} problem={props}>
-        <View style={styles.pageGrid}>
-          {...problemRows.map((problemRow, index) => (
-            <View key={"pr" + index} style={styles.pageRow}>
-              {problemRow.map((problem, index) => (
-                <View key={"p" + index} style={styles.pageCell}>
+        <ProblemGrid>
+          {...problemRows.map((problemRow) => (
+            <ProblemRow
+              key={JSON.stringify(
+                problemRow.map((row) => ({ ...row, reveal: 1 })),
+              )}
+            >
+              {problemRow.map((problem) => (
+                <ProblemCell key={JSON.stringify({ ...problem, reveal: true })}>
                   <NumberBlanksPdfProblem
                     reveal
                     problem={problem}
                     difficulty={difficulty}
                   />
-                </View>
+                </ProblemCell>
               ))}
-            </View>
+            </ProblemRow>
           ))}
-        </View>
+        </ProblemGrid>
       </BrandedPage>
     </Document>
   );

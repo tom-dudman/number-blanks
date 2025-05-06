@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
+import { createProblem } from "./NumberBlankProblem.ts";
 import { OPERATION } from "./OPERATION.ts";
-import { createProblem } from "./Problem.ts";
 
 const difficulty = 4;
 
-describe("Problem produces accurate components to a problem", () => {
+describe("NumberBlankProblem produces accurate components to a problem", () => {
   it("Creates an accurate addition problem", () => {
     const [top, operation, bottom, answer] = createProblem({
       mode: OPERATION.PLUS,

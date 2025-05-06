@@ -1,21 +1,27 @@
 import * as React from "react";
-import { BrowserRouter, Route, Routes } from "react-router";
+import { HashRouter, Navigate, Route, Routes } from "react-router";
 
-import NotFound from "@/routes/404.tsx";
 import Layout from "@/routes/Layout.tsx";
 
-const NumberBlankPage = React.lazy(() => import("@/routes/number-blank"));
+const NumberBlankPage = React.lazy(
+  () => import("@/routes/number-blank/NumberBlanksPage.tsx"),
+);
+
+const AngleMeasurePage = React.lazy(
+  () => import("@/routes/angle-measure/AngleMeasurePage.tsx"),
+);
 
 function App() {
   return (
-    <BrowserRouter basename={"/number-blanks/"}>
+    <HashRouter>
       <Routes>
         <Route element={<Layout />}>
-          <Route path={"/"} element={<NumberBlankPage />} />
-          <Route path={"*"} element={<NotFound />} />
+          <Route path={"/arithmetic"} element={<NumberBlankPage />} />
+          <Route path={"/angle-measure"} element={<AngleMeasurePage />} />
+          <Route path={"*"} element={<Navigate replace to={"/arithmetic"} />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

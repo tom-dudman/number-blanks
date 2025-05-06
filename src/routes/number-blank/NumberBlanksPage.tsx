@@ -1,6 +1,8 @@
 import { RefreshCcwDot } from "lucide-react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
+import DownloadButton from "@/components/DownloadButton.tsx";
+import RevealToggleButton from "@/components/RevealToggleButton.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import {
   Card,
@@ -10,12 +12,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card.tsx";
+import useRenderKey from "@/hooks/useRenderKey.ts";
 import DifficultySlider from "@/routes/number-blank/DifficultySlider.tsx";
-import DownloadButton from "@/routes/number-blank/DownloadButton.tsx";
 import ModeToggles from "@/routes/number-blank/ModeToggles.tsx";
 import NumberBlank from "@/routes/number-blank/NumberBlank.tsx";
-import { chooseOperation } from "@/routes/number-blank/Problem.ts";
-import RevealToggleButton from "@/routes/number-blank/RevealToggleButton.tsx";
+import { chooseOperation } from "@/routes/number-blank/NumberBlankProblem.ts";
+import NumberBlanksPdf from "@/routes/number-blank/pdf/NumberBlanksPdf.tsx";
 import useAppState from "@/stores/useAppState.ts";
 import useNumberBlankStore from "@/stores/useNumberBlankStore.ts";
 
@@ -26,26 +28,23 @@ const NumberBlankPage = () => {
   const reveal = useAppState(({ reveal }) => reveal);
   const setReveal = useAppState(({ setReveal }) => setReveal);
 
-  const toggleTheme = useAppState(({ toggleTheme }) => toggleTheme);
-
   const modeRef = useRef(chooseOperation(modes));
 
   if (!modes.includes(modeRef.current))
     modeRef.current = chooseOperation(modes);
 
-  const [renderKey, setRenderKey] = useState(Math.random());
+  const [renderKey, refreshRenderKey] = useRenderKey();
 
   const triggerNewProblem = () => {
     modeRef.current = chooseOperation(modes);
     setReveal(false);
-    setRenderKey(Math.random());
+    refreshRenderKey();
   };
 
   return (
     <>
       <div className="text-center">
         <h1
-          onClick={toggleTheme}
           className={
             "scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl"
           }
@@ -84,7 +83,12 @@ const NumberBlankPage = () => {
           <RevealToggleButton />
         </CardFooter>
       </Card>
-      <DownloadButton />
+      <DownloadButton
+        Element={NumberBlanksPdf}
+        problemType={"Number Blanks"}
+        modes={modes}
+        difficulty={difficulty}
+      />
     </>
   );
 };

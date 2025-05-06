@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
 import { PropsWithChildren } from "react";
 
-import { Problem } from "@/routes/number-blank/Problem.ts";
+import { NumberBlankProblem } from "@/routes/number-blank/NumberBlankProblem.ts";
 
 const CHAR_DIMENSIONS = 30;
 
@@ -60,7 +60,7 @@ const NumberBlanksPdfProblem = ({
   difficulty,
   reveal,
 }: {
-  problem: Problem;
+  problem: NumberBlankProblem;
   difficulty: number;
   reveal?: boolean;
 }) => {

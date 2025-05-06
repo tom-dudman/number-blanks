@@ -2,14 +2,16 @@ import { OPERATION } from "./OPERATION.ts";
 
 type Offset = 1 | 0;
 
-export type Problem = [number, OPERATION, number, number, Offset];
+export type NumberBlankProblem = [number, OPERATION, number, number, Offset];
 
 export const MIN_DIFFICULTY = 2;
 export const MAX_DIFFICULTY = 4;
 
 const randomOffset = () => Math.round(Math.random()) as Offset;
 
-const createMultiplicationProblem = (difficulty: number): Problem => {
+const createMultiplicationProblem = (
+  difficulty: number,
+): NumberBlankProblem => {
   const ceiling = Math.pow(10, difficulty);
 
   const limit = ~~Math.sqrt(ceiling);
@@ -24,7 +26,7 @@ const createMultiplicationProblem = (difficulty: number): Problem => {
   return [top, OPERATION.MULTIPLICATION, bottom, answer, randomOffset()];
 };
 
-const createSubtractProblem = (difficulty: number): Problem => {
+const createSubtractProblem = (difficulty: number): NumberBlankProblem => {
   const ceiling = Math.pow(10, difficulty);
 
   const top = ~~(ceiling * Math.random());
@@ -37,7 +39,7 @@ const createSubtractProblem = (difficulty: number): Problem => {
   return [top, OPERATION.SUBTRACT, bottom, answer, randomOffset()];
 };
 
-const createAdditionProblem = (difficulty: number): Problem => {
+const createAdditionProblem = (difficulty: number): NumberBlankProblem => {
   const ceiling = Math.pow(10, difficulty);
 
   const top = ~~(ceiling * Math.random());
@@ -56,7 +58,9 @@ export interface ProblemParameters {
   difficulty?: number;
 }
 
-export const createProblem = (params?: ProblemParameters): Problem => {
+export const createProblem = (
+  params?: ProblemParameters,
+): NumberBlankProblem => {
   const validDifficulty = Math.max(
     MIN_DIFFICULTY,
     Math.min(MAX_DIFFICULTY, params?.difficulty ?? 3),
