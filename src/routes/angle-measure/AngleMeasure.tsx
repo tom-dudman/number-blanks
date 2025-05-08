@@ -5,6 +5,7 @@ import createAngleMeasureProblem, {
   CENTER,
   SIZE,
 } from "@/routes/angle-measure/AngleMeasureProblem.ts";
+import useDarkMode from "@/stores/useDarkMode.ts";
 
 type AngleProblemProps = {
   angle: number;
@@ -30,6 +31,9 @@ const AngleMeasure: React.FC<AngleProblemProps> = ({
     labelY,
   } = angleProblem.current;
 
+  const { actualTheme } = useDarkMode();
+  const stroke = actualTheme === "dark" ? "white" : "black";
+
   return (
     <svg
       width={SIZE}
@@ -41,7 +45,7 @@ const AngleMeasure: React.FC<AngleProblemProps> = ({
         y1={CENTER}
         x2={x1}
         y2={y1}
-        stroke={"black"}
+        stroke={stroke}
         strokeWidth={2}
       />
       <line
@@ -49,14 +53,14 @@ const AngleMeasure: React.FC<AngleProblemProps> = ({
         y1={CENTER}
         x2={x2}
         y2={y2}
-        stroke={"black"}
+        stroke={stroke}
         strokeWidth={2}
       />
       <path
         d={`M ${arcStartX} ${arcStartY}
             A ${ARC_RADIUS} ${ARC_RADIUS} 0 ${arcFlag} 0 ${arcEndX} ${arcEndY}`}
         fill={"none"}
-        stroke={"black"}
+        stroke={stroke}
         strokeDasharray={"2"}
         strokeWidth={1.5}
       />
@@ -65,7 +69,7 @@ const AngleMeasure: React.FC<AngleProblemProps> = ({
           x={labelX}
           y={labelY}
           fontSize={"12"}
-          fill={"black"}
+          fill={stroke}
           textAnchor={"middle"}
           alignmentBaseline={"middle"}
         >
