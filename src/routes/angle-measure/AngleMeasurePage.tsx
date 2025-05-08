@@ -2,6 +2,7 @@ import { RefreshCcwDot } from "lucide-react";
 
 import DownloadButton from "@/components/DownloadButton.tsx";
 import RevealToggleButton from "@/components/RevealToggleButton.tsx";
+import TitleWithSubtitle from "@/components/TitleWithSubtitle.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import {
   Card,
@@ -33,18 +34,10 @@ const AngleMeasurePage = () => {
 
   return (
     <>
-      <div className="text-center">
-        <h1
-          className={
-            "scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl"
-          }
-        >
-          Number Blanks
-        </h1>
-        <p className={"text-sm text-muted-foreground"}>
-          Measure the angle between the lines.
-        </p>
-      </div>
+      <TitleWithSubtitle
+        title={"Number Blanks"}
+        subtitle={"Measure the angle between the lines."}
+      />
       <Card className={"min-w-[346px] mx-auto px-8 py-12 overflow-hidden"}>
         <CardHeader>
           <CardTitle>Example Problem</CardTitle>

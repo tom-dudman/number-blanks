@@ -3,6 +3,7 @@ import { useRef } from "react";
 
 import DownloadButton from "@/components/DownloadButton.tsx";
 import RevealToggleButton from "@/components/RevealToggleButton.tsx";
+import TitleWithSubtitle from "@/components/TitleWithSubtitle.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import {
   Card,
@@ -43,18 +44,10 @@ const NumberBlankPage = () => {
 
   return (
     <>
-      <div className="text-center">
-        <h1
-          className={
-            "scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl"
-          }
-        >
-          Number Blanks
-        </h1>
-        <p className={"text-sm text-muted-foreground"}>
-          Fill in the missing numbers.
-        </p>
-      </div>
+      <TitleWithSubtitle
+        title={"Number Blanks"}
+        subtitle={"Fill in the missing numbers."}
+      />
       <div className={"flex flex-col items-center gap-4"}>
         <ModeToggles />
         <DifficultySlider />
