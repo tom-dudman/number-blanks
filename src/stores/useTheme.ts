@@ -17,7 +17,7 @@ const alterMarkupTheme = (theme: Theme) => {
   root.classList.add(determineTheme(theme));
 };
 
-const useDarkMode = () => {
+const useTheme = () => {
   const theme = useAppState(({ theme }) => theme);
   const { setTheme, toggleTheme } = useAppState.getState();
 
@@ -27,7 +27,9 @@ const useDarkMode = () => {
 
   const actualTheme = determineTheme(theme);
 
-  return { theme, actualTheme, setTheme, toggleTheme };
+  const svgStroke = actualTheme === "dark" ? "white" : "black";
+
+  return { theme, actualTheme, svgStroke, setTheme, toggleTheme };
 };
 
-export default useDarkMode;
+export default useTheme;

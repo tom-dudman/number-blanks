@@ -10,10 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx";
 import { Theme } from "@/stores/useAppState.ts";
-import useDarkMode from "@/stores/useDarkMode.ts";
+import useTheme from "@/stores/useTheme.ts";
 
 const ThemeMenu = () => {
-  const { theme, setTheme } = useDarkMode();
+  const { theme, setTheme } = useTheme();
 
   const themes: Record<Theme, [JSX.Element, string]> = {
     system: [<SunMoon />, "System"],
